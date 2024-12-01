@@ -17,7 +17,7 @@ function currentWeather() {
       let latitude = area.coords.latitude;
       let longitude = area.coords.longitude;
       fetch(
-        `http://api.weatherapi.com/v1/current.json?key=278b2f0bf4df4a3988b75530240309&q=${latitude},${longitude}&aqi=yes`
+        `https://api.weatherapi.com/v1/current.json?key=278b2f0bf4df4a3988b75530240309&q=${latitude},${longitude}&aqi=yes`
       )
         .then((res) => res.json())
         .then((data) => {
@@ -66,7 +66,7 @@ function currentWeather() {
               </tr>`;
 
       fetch(
-        `http://api.weatherapi.com/v1/forecast.json?key=278b2f0bf4df4a3988b75530240309&q=${latitude},${longitude}&days=7&aqi=yes&alerts=yes`
+        `https://api.weatherapi.com/v1/forecast.json?key=278b2f0bf4df4a3988b75530240309&q=${latitude},${longitude}&days=7&aqi=yes&alerts=yes`
       )
         .then((res) => res.json())
         .then((data) => {
@@ -94,7 +94,7 @@ currentWeather();
 function weatherforSearchLocation(location) {
   //current weather
   fetch(
-    `http://api.weatherapi.com/v1/current.json?key=278b2f0bf4df4a3988b75530240309&q=${location}&aqi=yes`
+    `https://api.weatherapi.com/v1/current.json?key=278b2f0bf4df4a3988b75530240309&q=${location}&aqi=yes`
   )
     .then((res) => res.json())
     .then((data) => {
@@ -144,7 +144,7 @@ function weatherforSearchLocation(location) {
               </tr>`;
 
   fetch(
-    `http://api.weatherapi.com/v1/forecast.json?key=278b2f0bf4df4a3988b75530240309&q=${location}&days=7&aqi=yes&alerts=yes`
+    `https://api.weatherapi.com/v1/forecast.json?key=278b2f0bf4df4a3988b75530240309&q=${location}&days=7&aqi=yes&alerts=yes`
   )
     .then((res) => res.json())
     .then((data) => {
@@ -193,7 +193,7 @@ function historicalWeather(location, date) {
                 <th>weather description</th> 
               </tr>`;
     fetch(
-      `http://api.weatherapi.com/v1/history.json?key=278b2f0bf4df4a3988b75530240309&q=${location}&dt=${date}`
+      `https://api.weatherapi.com/v1/history.json?key=278b2f0bf4df4a3988b75530240309&q=${location}&dt=${date}`
     ) //this could not be done as the api does not support historical weather data. it is not a free version
       .then((res) => res.json())
       .then((data) => {
