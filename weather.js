@@ -16,8 +16,9 @@ function currentWeather() {
     navigator.geolocation.getCurrentPosition((area) => {
       let latitude = area.coords.latitude;
       let longitude = area.coords.longitude;
+      let accuracy = area.coords.accuracy;
       fetch(
-        `https://api.weatherapi.com/v1/current.json?key=278b2f0bf4df4a3988b75530240309&q=${latitude},${longitude}&aqi=yes`
+        `http://api.weatherapi.com/v1/current.json?key=278b2f0bf4df4a3988b75530240309&q=${latitude},${longitude}&aqi=yes`
       )
         .then((res) => res.json())
         .then((data) => {
@@ -66,7 +67,7 @@ function currentWeather() {
               </tr>`;
 
       fetch(
-        `https://api.weatherapi.com/v1/forecast.json?key=278b2f0bf4df4a3988b75530240309&q=${latitude},${longitude}&days=7&aqi=yes&alerts=yes`
+        `http://api.weatherapi.com/v1/forecast.json?key=278b2f0bf4df4a3988b75530240309&q=${latitude},${longitude}&days=7&aqi=yes&alerts=yes`
       )
         .then((res) => res.json())
         .then((data) => {
@@ -85,7 +86,12 @@ function currentWeather() {
         .catch((err) => {
           alert("Location not found!!! Please enter valid location" + err);
         });
+
+        //Map function
+        map(latitude, longitude, accuracy);
     });
+
+    
   }
 }
 
@@ -94,7 +100,7 @@ currentWeather();
 function weatherforSearchLocation(location) {
   //current weather
   fetch(
-    `https://api.weatherapi.com/v1/current.json?key=278b2f0bf4df4a3988b75530240309&q=${location}&aqi=yes`
+    `http://api.weatherapi.com/v1/current.json?key=278b2f0bf4df4a3988b75530240309&q=${location}&aqi=yes`
   )
     .then((res) => res.json())
     .then((data) => {
@@ -144,7 +150,7 @@ function weatherforSearchLocation(location) {
               </tr>`;
 
   fetch(
-    `https://api.weatherapi.com/v1/forecast.json?key=278b2f0bf4df4a3988b75530240309&q=${location}&days=7&aqi=yes&alerts=yes`
+    `http://api.weatherapi.com/v1/forecast.json?key=278b2f0bf4df4a3988b75530240309&q=${location}&days=7&aqi=yes&alerts=yes`
   )
     .then((res) => res.json())
     .then((data) => {
@@ -193,7 +199,7 @@ function historicalWeather(location, date) {
                 <th>weather description</th> 
               </tr>`;
     fetch(
-      `https://api.weatherapi.com/v1/history.json?key=278b2f0bf4df4a3988b75530240309&q=${location}&dt=${date}`
+      `http://api.weatherapi.com/v1/history.json?key=278b2f0bf4df4a3988b75530240309&q=${location}&dt=${date}`
     ) //this could not be done as the api does not support historical weather data. it is not a free version
       .then((res) => res.json())
       .then((data) => {
@@ -224,3 +230,23 @@ function historicalWeather(location, date) {
 btnHistory.addEventListener("click", () => {
   historicalWeather(inputLocation.value, date.value);
 });
+
+//map
+function map(lingitude, latitude , accuracy) {
+  var map = L.map("map");
+  map.setView([lingitude, latitude], 13);
+
+  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 19,
+    attribution:
+      '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+  }).addTo(map);
+
+  let marker = L.marker([lingitude, latitude]).addTo(map);
+  let circle = L.circle([lingitude, latitude], {
+    radius: accuracy,
+  }).addTo(map);
+
+  console.log(accuracy);
+  
+}
